@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Repository } from './models/repository'
+import { Question } from './models/question.model'
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'AngularCoreQuizAppFree';
+  constructor(private repo: Repository){ }
+
+  get question(): Question {
+    return this.repo.question;
+  }
 }
