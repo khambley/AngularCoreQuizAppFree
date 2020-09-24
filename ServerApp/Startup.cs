@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 namespace ServerApp
 {
@@ -51,6 +52,17 @@ namespace ServerApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSpa(spa => {
+                string strategy = Configuration
+                .GetValue<string>("DevTools:ConnectionStrategy");
+                if(strategy == "proxy"){
+                    spa.UseProxyToSpaDevelopmentServer("http://127.0.0.1:4200");
+                } else if (strategy == "managed"){
+                    spa.Options.SourcePath = "../ClientApp";
+                    spa.UseAngularCliServer("start");
+                }
             });
         }
     }
