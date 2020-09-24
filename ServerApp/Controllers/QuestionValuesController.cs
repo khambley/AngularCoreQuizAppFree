@@ -13,6 +13,7 @@ namespace ServerApp.Controllers {
 
         [HttpGet("{id}")]
         public Question GetQuestion(int id){
+            System.Threading.Thread.Sleep(5000);
             return context.Questions.Find(id);
         }
     }

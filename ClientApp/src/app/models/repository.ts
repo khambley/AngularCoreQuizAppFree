@@ -1,9 +1,24 @@
 import { Question } from "./question.model"
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
+@Injectable()
 export class Repository {
-    constructor(){
-        //this will be replaced with an HTTP web service later
-        this.question = JSON.parse(document.getElementById("data").textContent);
+    questionData: Question;
+
+    constructor(private http: HttpClient){
+        this.getQuestion(1);
     }
-    question: Question;
+
+    getQuestion(id: number){
+        this.http.get<Question>("/api/questions/" + id)
+        .subscribe(q => {
+            this.questionData = q;
+            console.log("Question Data Received");
+        });
+    }
+    get question(): Question {
+        console.log("Question Data Requested");
+        return this.questionData;
+    }
 }
